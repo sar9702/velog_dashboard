@@ -1,10 +1,46 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<!-- Header -->
+<div th:replace="~{/comm/header}"></div>
+
 <body>
 
+<!-- Navbar -->
+<div th:replace="~{/comm/navbar}"></div>
+
+<div class="container">
+    <table class="table table-sm">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">썸네일</th>
+                <th scope="col">제목</th>
+                <th scope="col">조회수</th>
+                <th></th>
+            </tr>
+        </thead>
+
+        <tbody class="table-group-divider">
+            <th:block th:each="post : ${posts}">
+                <tr>
+                    <th scope="row">#</th>
+                    <td>
+                        <div>
+                            <img class="img-thumbnail" th:src="${post.getThumbnailURL()}" alt="" width="200" height="150" />
+                        </div>
+
+                    </td>
+                    <td th:text="${post.getTitle()}">제목</td>
+                    <td th:text="${post.getTotalViews()}">0</td>
+                    <td>바로가기 링크</td>
+                </tr>
+            </th:block>
+        </tbody>
+    </table>
+</div>
+
+<!-- Footer -->
+<div th:replace="~{/comm/footer}"></div>
 </body>
 </html>
