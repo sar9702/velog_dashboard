@@ -1,0 +1,15 @@
+
+--- # Start
+
+--- # change port
+server:
+  port: 8080
+  servlet:
+    context-path: /velog-dashboard
+
+--- # Thymeleaf
+spring:
+  thymeleaf:
+    cache: false  # source reload
+    prefix: file:src/main/resources/templates  # classpath:/templates
+    suffix: .html
