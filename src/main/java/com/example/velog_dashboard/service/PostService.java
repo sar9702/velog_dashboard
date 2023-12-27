@@ -40,19 +40,14 @@ public class PostService {
                 {
                     "operationName": "Posts",
                     "variables": {
-                        "username": "%s",
-                        "tag": null
+                        "username": "%s"
                     },
                     "query": "query Posts($cursor: ID, $username: String, $temp_only: Boolean, $tag: String, $limit: Int) {
                         posts(cursor: $cursor, username: $username, temp_only: $temp_only, tag: $tag, limit: $limit) {
                             id
                             title
-                            short_description
                             thumbnail
-                            user {
-                                id
-                                username
-                            }
+                            url_slug
                         }
                     }"
                 }
@@ -64,6 +59,7 @@ public class PostService {
 
         // Request
         String response = restTemplate.postForObject(velogUrl, entity, String.class);
+        System.out.println(response);
 
         // 데이터 정리
         JSONObject jsonResponse = (JSONObject) jsonParser.parse(response);
@@ -76,11 +72,13 @@ public class PostService {
             String id = (String) jsonPost.get("id");
             String title = (String) jsonPost.get("title");
             String thumbnailURL = (String) jsonPost.get("thumbnail");
+            String urlSlug = (String) jsonPost.get("url_slug");
 
             Post post = new Post();
             post.setId(id);
             post.setTitle(title);
             post.setThumbnailURL(thumbnailURL);
+            post.setUrl(String.format("https://velog.io/@%s/%s", velogUserName, urlSlug));
 
             list.add(post);
         }

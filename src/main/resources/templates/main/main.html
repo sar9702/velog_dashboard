@@ -33,7 +33,9 @@
                     </td>
                     <td th:text="${post.getTitle()}">제목</td>
                     <td class="text-center" th:text="${post.getTotalViews()}">0</td>
-                    <td>바로가기 링크</td>
+                    <td class="text-center">
+                        <a th:href="${post.getUrl()}">바로가기</a>
+                    </td>
                 </tr>
             </th:block>
         </tbody>

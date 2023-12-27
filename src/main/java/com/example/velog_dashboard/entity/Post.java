@@ -16,4 +16,7 @@ public class Post {
 
     // 썸네일
     private String thumbnailURL;
+
+    // 바로가기 링크
+    private String url;
 }
