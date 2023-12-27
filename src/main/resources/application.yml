@@ -13,3 +13,8 @@ spring:
     cache: false  # source reload
     prefix: file:src/main/resources/templates  # classpath:/templates
     suffix: .html
+
+--- # Velog Config
+velog:
+  url: https://v2.velog.io/graphql
+  username: dailynote31
