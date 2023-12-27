@@ -59,7 +59,6 @@ public class PostService {
 
         // Request
         String response = restTemplate.postForObject(velogUrl, entity, String.class);
-        System.out.println(response);
 
         // 데이터 정리
         JSONObject jsonResponse = (JSONObject) jsonParser.parse(response);
@@ -106,12 +105,6 @@ public class PostService {
                     "query": "query GetStats($post_id: ID!) {
                         getStats(post_id: $post_id) {
                             total
-                            count_by_day {
-                                count
-                                day
-                                __typename
-                            }
-                            __typename
                         }
                     }"
                 }
