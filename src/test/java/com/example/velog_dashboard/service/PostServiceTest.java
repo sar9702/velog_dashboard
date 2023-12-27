@@ -19,4 +19,15 @@ class PostServiceTest {
         List<Post> posts = postService.posts();
         System.out.println(posts);
     }
+
+    @Test
+    void stats() throws ParseException {
+        List<Post> posts = postService.posts();
+        for (int i = 0; i < posts.size(); i++) {
+            Post post = posts.get(i);
+            post = postService.stats(post);
+
+            System.out.println(post);
+        }
+    }
 }

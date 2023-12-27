@@ -18,3 +18,4 @@ spring:
 velog:
   url: https://v2.velog.io/graphql
   username: dailynote31
+  access_token:

@@ -23,6 +23,9 @@ public class PostService {
     @Value("${velog.url}")
     private String velogUrl;
 
+    @Value("${velog.access_token}")
+    private String velogAccessToken;
+
     /**
      * Velog에 등록된 게시물 리스트를 반환하는 함수
      */
@@ -83,5 +86,53 @@ public class PostService {
         }
 
         return list;
+    }
+
+    /**
+     * Velog 게시물의 조회수를 반환하는 함수
+     */
+    public Post stats(Post post) throws ParseException {
+        RestTemplate restTemplate = new RestTemplate();
+
+        // Header Setting
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add("content-type", "application/json");
+        httpHeaders.add("cookie", "access_token=" + velogAccessToken);
+
+        String query = String.format("""
+                {
+                    "operationName": "GetStats",
+                    "variables": {
+                        "post_id": "%s"
+                    },
+                    "query": "query GetStats($post_id: ID!) {
+                        getStats(post_id: $post_id) {
+                            total
+                            count_by_day {
+                                count
+                                day
+                                __typename
+                            }
+                            __typename
+                        }
+                    }"
+                }
+                """, post.getId());
+        JSONParser jsonParser = new JSONParser();
+        JSONObject jsonObject = (JSONObject) jsonParser.parse(query);
+
+        HttpEntity<JSONObject> entity = new HttpEntity<>(jsonObject, httpHeaders);
+
+        // Request
+        String response = restTemplate.postForObject(velogUrl, entity, String.class);
+
+        // 데이터 정리
+        JSONObject jsonResponse = (JSONObject) jsonParser.parse(response);
+        JSONObject data = (JSONObject) jsonResponse.get("data");
+        JSONObject stats = (JSONObject) data.get("getStats");
+
+        post.setTotalViews(Integer.parseInt(stats.get("total").toString()));
+
+        return post;
     }
 }
