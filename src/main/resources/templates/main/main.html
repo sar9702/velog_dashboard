@@ -22,9 +22,9 @@
         </thead>
 
         <tbody class="table-group-divider">
-            <th:block th:each="post : ${posts}">
+            <th:block th:each="post, postStat : ${posts}">
                 <tr>
-                    <th scope="row">#</th>
+                    <th scope="row" th:text="${postStat.index + 1}">#</th>
                     <td>
                         <div th:if="${post.getThumbnailURL() != null}">
                             <img class="img-thumbnail" th:src="${post.getThumbnailURL()}" alt="" width="200" height="150" />
